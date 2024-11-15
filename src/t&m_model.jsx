@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './model.css';
 
-const Modal = ({ show, onClose }) => {
+const Modal = ({ show, onClose, onAgree}) => {
   if (!show) return null; // Return null if the modal is not visible
 
   return ReactDOM.createPortal(
@@ -27,7 +27,14 @@ const Modal = ({ show, onClose }) => {
             </ul>
           </div>
           <div className="modal-footer">
-            <button type="button" className="btn btn-success" onClick={onClose}>I Agree</button>
+            <button type="button" className="btn btn-success" onClick={onAgree}>I Agree</button>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={onClose}
+            >
+              Close
+              </button>
           </div>
         </div>
       </div>
