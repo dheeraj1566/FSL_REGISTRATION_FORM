@@ -1,6 +1,8 @@
 import "./App.css";
 import { useState } from "react";
 import Modal from "./t&m_model.jsx";
+import "bootstrap/dist/css/bootstrap.min.css";
+
 
 function App() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -17,10 +19,57 @@ function App() {
   const [localAddress, setLocalAddress] = useState("");
   const [permanentAddress, setPermanentAddress] = useState("");
   const [isSameAddress, setIsSameAddress] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    dob: '',
+    gender: '',
+    aadharFront: '',
+    aadharBack: '',
+    laddress: '',
+    paddress: '',
+    fname: '',
+    fphone: '',
+    areYoua: '',
+    qualification: '',
+    qualificationYear: '',
+    college: '',
+    designation: '',
+    company: '',
+    Course: '',
+    knowus: '',
+    friendname: '',
+    Terms_condition: false,
+    password: '',
+  });
 
-  // useEffect(() => {
-  //   setSelectedOption("student");
-  // }, []);
+
+
+  // const handleChange = (e) => {
+  //   const { name, value, type, checked } = e.target;
+  //   setFormData({
+  //     ...formData,
+  //     [name]: type === 'checkbox' ? checked : value,
+  //   });
+  // };
+
+  const handleSubmit = async (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData({
+      ...formData,
+      [name]: type === 'checkbox' ? checked : value,
+    });
+    e.preventDefault();
+    try {
+      const response = await axios.post('/api/fsl', formData);
+      alert('Form submitted successfully');
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error submitting form', error);
+      alert('Failed to submit form');
+    }
+  };
 
   const handleCheckboxSelect = () => {
     setIsChecked(!isChecked); // Toggle checkbox state
@@ -32,16 +81,9 @@ function App() {
   const handleRoleChange = (event) => {
     setRole(event.target.value);
 
-    // if (event.target.value === 'student') {
-    //   setRole(event.target.value);
-    // }
+  
   };
-  // const handleOptionChange = (event) => {
-  //   // Prevent changing from option1
-  //   if (event.target.value !== 'option1') {
-  //     setSelectedOption(event.target.value);
-  //   }
-  // };
+ 
   const handleCheckboxChange = () => {
     setIsSameAddress(!isSameAddress); // Toggle the checkbox state
     if (!isSameAddress) {
@@ -666,7 +708,6 @@ function App() {
 
                           <div>
 
-      {/* Conditionally render the friend name input field */}
       {isChecked && (
         <div>
           <label>
@@ -681,14 +722,6 @@ function App() {
         </div>
       )}
     </div>
-
-
-
-
-
-
-
-
 
 
 
@@ -735,6 +768,7 @@ function App() {
                         name="register"
                         className="btn btn-lg btn-primary btn-block"
                         value="Register"
+                        onClick={handleSubmit}
                       />
                     </div>
                   </div>
@@ -751,3 +785,4 @@ function App() {
 }
 
 export default App;
+
