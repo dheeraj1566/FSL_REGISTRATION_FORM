@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './model.css';
 
 const Modal = ({ show, onClose, onAgree}) => {
-  if (!show) return null; // Return null if the modal is not visible
+  if (!show) return null; 
 
   return ReactDOM.createPortal(
     <div className="modal" tabIndex="-1">
