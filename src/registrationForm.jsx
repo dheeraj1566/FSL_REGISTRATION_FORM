@@ -3,10 +3,10 @@ import { useState } from "react";
 import Modal from "./t&m_model.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
-import { RegistrationForm } from "react-bootstrap";
+// import { UserForm } from "react-bootstrap";
 
 
-function RegistrationForm() {
+function UserForm() {
   
   const [modalOpen, setModalOpen] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
@@ -799,5 +799,5 @@ function RegistrationForm() {
   );
 }
 
-export default RegistrationForm;
+export default UserForm;
 

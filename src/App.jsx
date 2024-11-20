@@ -1,9 +1,10 @@
-import React from 'react'
+import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import Home from './Pages/Home';
-import RegistrationForm from './registrationForm';
+import UserForm from './registrationForm';
 import About from './Pages/About';
+import Navbar from './Navbar';
 
 const router = createBrowserRouter([
   {
@@ -16,11 +17,11 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/form",
+    path: "/registration",
     element: (
       <>
         <Navbar />
-        <RegistrationForm />
+        <UserForm />
       </>
     ),
   },
@@ -35,13 +36,10 @@ const router = createBrowserRouter([
   },
 ]);
 
-
 function App() {
   return (
-    <div>
     <RouterProvider router={router} />
-  </div>
-);
+  );
 }
 
 export default App;
