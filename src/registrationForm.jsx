@@ -70,6 +70,11 @@ function UserForm() {
     setIsChecked(event.target.value === "Friend");
   };
 
+  // const handleAgree = () => {
+  //   setTermsAccepted(true); // Set the terms as accepted
+  //   setShowModal(false); // Close the modal
+  // };
+
   const handleInputChange = (event) => {
     setFriendName(event.target.value);
   };
@@ -790,8 +795,7 @@ function UserForm() {
                 <Modal
                   show={modalOpen}
                   onClose={closeModal}
-                  on
-                  Agree={handleAgree}
+                  onAgree={handleAgree}
                 />
               )}
             </div>
