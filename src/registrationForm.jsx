@@ -50,23 +50,14 @@ function UserForm() {
     closeModal();
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
-
-    const { name, value, type, checked } = e.target;
-
-    // Update form data state
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+  const handleSubmit = async () => {
+    console.log("Form data before submit:", formData); // Log current form data
 
     try {
       const response = await axios.post(
         "http://localhost:9090/createfsl",
         formData
       );
-      // headers: { "Content-Type": "multipart/form-data" }
       alert("Form submitted successfully");
       console.log("Response:", response.data);
     } catch (error) {
@@ -76,7 +67,6 @@ function UserForm() {
   };
 
   const handleRadioChange = (event) => {
-    // Agar selected radio button 'Friend' hai toh isChecked ko true karein, warna false
     setIsChecked(event.target.value === "Friend");
   };
 
@@ -108,12 +98,24 @@ function UserForm() {
   };
 
   const handleCourseChange = (e) => {
-    const value = e.target.value;
+    const { value } = e.target;
     setSelectedCourse(value);
 
     if (value !== "other") {
       setOtherCourse("");
     }
+  };
+
+  // const handleTermsChange = (e) => {
+  //   setTermsAccepted(e.target.checked);
+  // };
+
+  const handleInputChangeForm = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   return (
@@ -139,8 +141,7 @@ function UserForm() {
             <div className="col-sm-12">
               <form
                 className="registration-form mb-3"
-                method="post"
-                action=""
+                onSubmit={() => handleSubmit()}
                 encType="multipart/form-data"
               >
                 <div className="card">
@@ -157,6 +158,8 @@ function UserForm() {
                           id="name"
                           name="name"
                           placeholder="Enter your full name"
+                          value={formData.name}
+                          onChange={handleInputChangeForm}
                           required
                         />
                       </div>
@@ -176,6 +179,8 @@ function UserForm() {
                           id="email"
                           name="email"
                           placeholder="Enter your email address"
+                          value={formData.email}
+                          onChange={handleInputChangeForm}
                           required
                         />
                       </div>
@@ -195,6 +200,8 @@ function UserForm() {
                           id="phone"
                           name="phone"
                           placeholder="Enter your phone number"
+                          value={formData.phone}
+                          onChange={handleInputChangeForm}
                           required
                         />
                       </div>
@@ -210,6 +217,8 @@ function UserForm() {
                           className="form-control"
                           id="dob"
                           name="dob"
+                          value={formData.dob}
+                          onChange={handleInputChangeForm}
                           required
                         />
                       </div>
@@ -230,6 +239,8 @@ function UserForm() {
                             name="gender"
                             id="male"
                             value="male"
+                            checked={formData.gender === "male"}
+                            onChange={handleInputChangeForm}
                             required
                           />
                           <label className="form-check-label" htmlFor="male">
@@ -243,6 +254,8 @@ function UserForm() {
                             name="gender"
                             id="female"
                             value="female"
+                            checked={formData.gender === "female"}
+                            onChange={handleInputChangeForm}
                             required
                           />
                           <label className="form-check-label" htmlFor="female">
@@ -256,6 +269,8 @@ function UserForm() {
                             name="gender"
                             id="other"
                             value="other"
+                            checked={formData.gender === "other"}
+                            onChange={handleInputChangeForm}
                             required
                           />
                           <label className="form-check-label" htmlFor="other">
@@ -268,7 +283,7 @@ function UserForm() {
                     <div className="form-group row">
                       <label
                         htmlFor="aadharFront"
-                        className="col-sm-2 col-form-label"
+                        className=" col-sm-2 col-form-label"
                       >
                         Aadhaar Card
                       </label>
@@ -279,7 +294,6 @@ function UserForm() {
                             className="form-control"
                             id="aadharFront"
                             name="aadharFront"
-                            placeholder="aadhaar front"
                             required
                           />
                         </div>
@@ -289,7 +303,6 @@ function UserForm() {
                             className="form-control"
                             id="aadharBack"
                             name="aadharBack"
-                            placeholder="aadhaar"
                             required
                           />
                         </div>
@@ -315,6 +328,8 @@ function UserForm() {
                           id="fname"
                           name="fname"
                           placeholder="Enter your parent / guardian name"
+                          value={formData.fname}
+                          onChange={handleInputChangeForm}
                           required
                         />
                       </div>
@@ -334,6 +349,8 @@ function UserForm() {
                           id="fphone"
                           name="fphone"
                           placeholder="Enter your parent / guardian phone number"
+                          value={formData.fphone}
+                          onChange={handleInputChangeForm}
                           required
                         />
                       </div>
@@ -399,6 +416,7 @@ function UserForm() {
                           placeholder="Enter your permanent address (address of your hometown)"
                           value={permanentAddress}
                           onChange={(e) => setPermanentAddress(e.target.value)}
+                          readOnly={isSameAddress}
                           required
                         ></textarea>
                       </div>
@@ -407,165 +425,154 @@ function UserForm() {
                 </div>
 
                 <div className="card">
-                  <div className="card">
-                    <div className="card-header">Educational Details</div>
-                    <div className="card-body">
-                      <div className="form-group row">
-                        <label className="col-sm-2 col-form-label">
-                          Are you a:
-                        </label>
-                        <div className="col-sm-10">
-                          <div className="form-check form-check-inline">
-                            <input
-                              className="form-check-input"
-                              type="radio"
-                              name="role"
-                              id="student"
-                              value="student"
-                              checked={role === "student"}
-                              onChange={handleRoleChange}
+                  <div className="card-header">Educational Details</div>
+                  <div className="card-body">
+                    <div className="form-group row">
+                      <label className="col-sm-2 col-form-label">
+                        Are you a:
+                      </label>
+                      <div className="col-sm-10">
+                        <div className="form-check form-check-inline">
+                          <input
+                            className="form-check-input"
+                            type="radio"
+                            name="role"
+                            value="student"
+                            onChange={handleRoleChange}
+                            checked={role === "student"}
                             />
-                            <label
-                              className="form-check-label"
-                              htmlFor="student"
-                            >
-                              Student
-                            </label>
-                          </div>
-                          <div className="form-check form-check-inline">
-                            <input
-                              className="form-check-input"
-                              type="radio"
-                              name="role"
-                              id="workingProfessional"
-                              value="workingProfessional"
-                              checked={role === "workingProfessional"}
-                              onChange={handleRoleChange}
-                            />
-                            <label
-                              className="form-check-label"
-                              htmlFor="workingProfessional"
-                            >
-                              workingProfessional
-                            </label>
-                          </div>
+                          <label className="form-check-label">Student</label>
+                        </div>
+                        <div className="form-check form-check-inline">
+                          <input
+                            className="form-check-input"
+                            type="radio"
+                            name="role"
+                            value="workingProfessional"
+                            checked={role === "workingProfessional"}
+                            onChange={handleRoleChange}
+                          />
+                          <label className="form-check-label">
+                            Working Professional
+                          </label>
                         </div>
                       </div>
-
-                      {/* Conditionally Render Inputs Based on Role Selection */}
-
-                      {role === "student" && (
-                        <>
-                          <div className="form-group row">
-                            <label
-                              htmlFor="qualification"
-                              className="col-sm-2 col-form-label"
-                            >
-                              Last Attained Qualification
-                            </label>
-                            <div className="col-sm-10">
-                              <input
-                                type="text"
-                                className="form-control"
-                                id="qualification"
-                                value={qualification}
-                                onChange={(e) =>
-                                  setQualification(e.target.value)
-                                }
-                                placeholder="Enter your qualification"
-                                required
-                              />
-                            </div>
-                          </div>
-
-                          <div className="form-group row">
-                            <label
-                              htmlFor="qualificationYear"
-                              className="col-sm-2 col-form-label"
-                            >
-                              Year
-                            </label>
-                            <div className="col-sm-10">
-                              <input
-                                type="text"
-                                className="form-control"
-                                id="qualificationYear"
-                                value={qualificationYear}
-                                onChange={(e) =>
-                                  setQualificationYear(e.target.value)
-                                }
-                                placeholder="Enter your completion year"
-                                required
-                              />
-                            </div>
-                          </div>
-
-                          <div className="form-group row">
-                            <label
-                              htmlFor="qualificationYear"
-                              className="col-sm-2 col-form-label"
-                            >
-                              College / University
-                            </label>
-                            <div className="col-sm-10">
-                              <input
-                                type="text"
-                                className="form-control"
-                                id="college"
-                                value={college}
-                                onChange={(e) => setCollege(e.target.value)}
-                                placeholder="College / University"
-                                required
-                              />
-                            </div>
-                          </div>
-                        </>
-                      )}
-
-                      {role === "workingProfessional" && (
-                        <>
-                          <div className="form-group row">
-                            <label
-                              htmlFor="designation"
-                              className="col-sm-2 col-form-label"
-                            >
-                              Designation
-                            </label>
-                            <div className="col-sm-10">
-                              <input
-                                type="text"
-                                className="form-control"
-                                id="designation"
-                                value={designation}
-                                onChange={(e) => setDesignation(e.target.value)}
-                                placeholder="Enter your designation"
-                                required
-                              />
-                            </div>
-                          </div>
-
-                          <div className="form-group row">
-                            <label
-                              htmlFor="company"
-                              className="col-sm-2 col-form-label"
-                            >
-                              Company
-                            </label>
-                            <div className="col-sm-10">
-                              <input
-                                type="text"
-                                className="form-control"
-                                id="company"
-                                value={company}
-                                onChange={(e) => setCompany(e.target.value)}
-                                placeholder="Enter your company name"
-                                required
-                              />
-                            </div>
-                          </div>
-                        </>
-                      )}
                     </div>
+
+                    {role === "student" && (
+                      <>
+                        <div className="form-group row">
+                          <label
+                            htmlFor="qualification"
+                            className="col-sm-2 col-form-label"
+                          >
+                            Last Attained Qualification
+                          </label>
+                          <div className="col-sm-10">
+                            <input
+                              type="text"
+                              className="form-control"
+                              id="qualification"
+                              name="qualification"
+                              value={qualification}
+                              onChange={(e) => setQualification(e.target.value)}
+                              placeholder="Enter your qualification"
+                              required
+                            />
+                          </div>
+                        </div>
+
+                        <div className="form-group row">
+                          <label
+                            htmlFor="qualificationYear"
+                            className="col-sm-2 col-form-label"
+                          >
+                            Year
+                          </label>
+                          <div className="col-sm-10">
+                            <input
+                              type="text"
+                              className="form-control"
+                              id="qualificationYear"
+                              name="qualificationYear"
+                              value={qualificationYear}
+                              onChange={(e) =>
+                                setQualificationYear(e.target.value)
+                              }
+                              placeholder="Enter your completion year"
+                              required
+                            />
+                          </div>
+                        </div>
+
+                        <div className="form-group row">
+                          <label
+                            htmlFor="college"
+                            className="col-sm-2 col-form-label"
+                          >
+                            College / University
+                          </label>
+                          <div className="col-sm-10">
+                            <input
+                              type="text"
+                              className="form-control"
+                              id="college"
+                              name="college"
+                              value={college}
+                              onChange={(e) => setCollege(e.target.value)}
+                              placeholder="College / University"
+                              required
+                            />
+                          </div>
+                        </div>
+                      </>
+                    )}
+
+                    {role === "workingProfessional" && (
+                      <>
+                        <div className="form-group row">
+                          <label
+                            htmlFor="designation"
+                            className="col-sm-2 col-form-label"
+                          >
+                            Designation
+                          </label>
+                          <div className="col-sm-10">
+                            <input
+                              type="text"
+                              className="form-control"
+                              id="designation"
+                              name="designation"
+                              value={designation}
+                              onChange={(e) => setDesignation(e.target.value)}
+                              placeholder="Enter your designation"
+                              required
+                            />
+                          </div>
+                        </div>
+
+                        <div className="form-group row">
+                          <label
+                            htmlFor="company"
+                            className="col-sm-2 col-form-label"
+                          >
+                            Company
+                          </label>
+                          <div className="col-sm-10">
+                            <input
+                              type="text"
+                              className="form-control"
+                              id="company"
+                              name="company"
+                              value={company}
+                              onChange={(e) => setCompany(e.target.value)}
+                              placeholder="Enter your company name"
+                              required
+                            />
+                          </div>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
 
@@ -722,7 +729,6 @@ function UserForm() {
                           </label>
                         </div>
 
-                        {/* Agar 'Friend' selected hai toh yeh input field dikhegi */}
                         {isChecked && (
                           <div>
                             <label>
@@ -748,7 +754,7 @@ function UserForm() {
                             value="terms"
                             required
                             checked={termsAccepted}
-                            onClick={termsCondition}
+                            onChange={termsCondition}
                           />
                           <span className="slider round"></span>
                         </label>
@@ -774,7 +780,6 @@ function UserForm() {
                         className="btn btn-lg btn-primary btn-block"
                         value="Register"
                         disabled={!termsAccepted}
-                        onClick={handleSubmit}
                       />
                     </div>
                   </div>
@@ -785,7 +790,8 @@ function UserForm() {
                 <Modal
                   show={modalOpen}
                   onClose={closeModal}
-                  onAgree={handleAgree}
+                  on
+                  Agree={handleAgree}
                 />
               )}
             </div>
