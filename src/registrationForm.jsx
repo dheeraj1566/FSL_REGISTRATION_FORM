@@ -3,11 +3,8 @@ import { useState } from "react";
 import Modal from "./t&m_model.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
-// import { UserForm } from "react-bootstrap";
-
 
 function UserForm() {
-  
   const [modalOpen, setModalOpen] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState("");
@@ -24,55 +21,34 @@ function UserForm() {
   const [permanentAddress, setPermanentAddress] = useState("");
   const [isSameAddress, setIsSameAddress] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    dob: '',
-    gender: '',
-    aadharFront: '',
-    aadharBack: '',
-    laddress: '',
-    paddress: '',
-    fname: '',
-    fphone: '',
-    areYoua: '',
-    qualification: '',
-    qualificationYear: '',
-    college: '',
-    designation: '',
-    company: '',
-    Course: '',
-    knowus: '',
-    friendname: '',
+    name: "",
+    email: "",
+    phone: "",
+    dob: "",
+    gender: "",
+    aadharFront: "",
+    aadharBack: "",
+    laddress: "",
+    paddress: "",
+    fname: "",
+    fphone: "",
+    areYoua: "",
+    qualification: "",
+    qualificationYear: "",
+    college: "",
+    designation: "",
+    company: "",
+    Course: "",
+    knowus: "",
+    friendname: "",
     Terms_condition: false,
-    password: '',
+    password: "",
   });
-
-
 
   const handleAgree = () => {
     setTermsAccepted(true);
-    closeModal(); 
+    closeModal();
   };
-
-
-  // const handleSubmit = async (e) => {
-  //   const { name, value, type, checked } = e.target;
-  //   FormData({
-  //     ...formData,
-  //     [name]: type === 'checkbox' ? checked : value,
-  //   });
-  //   console.log("Form Data:-",setFormData())
-  //   e.preventDefault();
-  //   try {
-  //     const response = await axios.post('http://localhost:9090/createfsl', formData);
-  //     alert('Form submitted successfully');
-  //     console.log(response.setFormData);
-  //   } catch (error) {
-  //     console.error('Error submitting form', error);
-  //     alert('Failed to submit form');
-  //   }
-  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission behavior
@@ -81,23 +57,24 @@ function UserForm() {
 
     // Update form data state
     setFormData((prevData) => ({
-        ...prevData,
-        [name]: type === 'checkbox' ? checked : value,
+      ...prevData,
+      [name]: type === "checkbox" ? checked : value,
     }));
 
     try {
-        const response = await axios.post('http://localhost:9090/createfsl', formData);
-        // headers: { "Content-Type": "multipart/form-data" }
-        alert('Form submitted successfully');
-        console.log("Response:", response.data);
+      const response = await axios.post(
+        "http://localhost:9090/createfsl",
+        formData
+      );
+      // headers: { "Content-Type": "multipart/form-data" }
+      alert("Form submitted successfully");
+      console.log("Response:", response.data);
     } catch (error) {
-        console.error('Error submitting form', error);
-        alert('Failed to submit form');
+      console.error("Error submitting form", error);
+      alert("Failed to submit form");
     }
-};
+  };
 
-
-  
   const handleRadioChange = (event) => {
     // Agar selected radio button 'Friend' hai toh isChecked ko true karein, warna false
     setIsChecked(event.target.value === "Friend");
@@ -107,18 +84,10 @@ function UserForm() {
     setFriendName(event.target.value);
   };
 
-
-  // const handleCheckboxSelect = () => {
-  //   setIsChecked(!isChecked); // Toggle checkbox state
-  // };
- 
-
   const handleRoleChange = (event) => {
     setRole(event.target.value);
-
-  
   };
- 
+
   const handleCheckboxChange = () => {
     setIsSameAddress(!isSameAddress); // Toggle the checkbox state
     if (!isSameAddress) {
@@ -451,23 +420,33 @@ function UserForm() {
                               className="form-check-input"
                               type="radio"
                               name="role"
+                              id="student"
                               value="student"
                               checked={role === "student"}
                               onChange={handleRoleChange}
                             />
-                            <label className="form-check-label">Student</label>
+                            <label
+                              className="form-check-label"
+                              htmlFor="student"
+                            >
+                              Student
+                            </label>
                           </div>
                           <div className="form-check form-check-inline">
                             <input
                               className="form-check-input"
                               type="radio"
                               name="role"
+                              id="workingProfessional"
                               value="workingProfessional"
                               checked={role === "workingProfessional"}
                               onChange={handleRoleChange}
                             />
-                            <label className="form-check-label">
-                              Working Professional
+                            <label
+                              className="form-check-label"
+                              htmlFor="workingProfessional"
+                            >
+                              workingProfessional
                             </label>
                           </div>
                         </div>
@@ -655,98 +634,110 @@ function UserForm() {
                         </div>
                       </div>
                     )}
-                     <div className="form-group row">
-      <label htmlFor="referral" className="col-sm-2 col-form-label">
-        How did you come to know about us?
-      </label>
-      <div className="col-sm-10">
-        <div className="form-check form-check-inline">
-          <input
-            className="form-check-input"
-            type="radio"
-            name="referral"
-            id="google"
-            value="Google"
-            required
-            onChange={handleRadioChange}
-          />
-          <label className="form-check-label" htmlFor="google">
-            Google
-          </label>
-        </div>
-        <div className="form-check form-check-inline">
-          <input
-            className="form-check-input"
-            type="radio"
-            name="referral"
-            id="facebook"
-            value="Facebook"
-            required
-            onChange={handleRadioChange}
-          />
-          <label className="form-check-label" htmlFor="facebook">
-            Facebook
-          </label>
-        </div>
-        <div className="form-check form-check-inline">
-          <input
-            className="form-check-input"
-            type="radio"
-            name="referral"
-            id="instagram"
-            value="Instagram"
-            required
-            onChange={handleRadioChange}
-          />
-          <label className="form-check-label" htmlFor="instagram">
-            Instagram
-          </label>
-        </div>
-        <div className="form-check form-check-inline">
-          <input
-            className="form-check-input"
-            type="radio"
-            name="referral"
-            id="collegeTPO"
-            value="College TPO"
-            required
-            onChange={handleRadioChange}
-          />
-          <label className="form-check-label" htmlFor="collegeTPO">
-            College TPO
-          </label>
-        </div>
-        <div className="form-check form-check-inline">
-          <input
-            className="form-check-input"
-            type="radio"
-            name="referral"
-            id="friend"
-            value="Friend"
-            required
-            onChange={handleRadioChange}
-          />
-          <label className="form-check-label" htmlFor="friend">
-            Friend
-          </label>
-        </div>
+                    <div className="form-group row">
+                      <label
+                        htmlFor="referral"
+                        className="col-sm-2 col-form-label"
+                      >
+                        How did you come to know about us?
+                      </label>
+                      <div className="col-sm-10">
+                        <div className="form-check form-check-inline">
+                          <input
+                            className="form-check-input"
+                            type="radio"
+                            name="referral"
+                            id="google"
+                            value="Google"
+                            required
+                            onChange={handleRadioChange}
+                          />
+                          <label className="form-check-label" htmlFor="google">
+                            Google
+                          </label>
+                        </div>
+                        <div className="form-check form-check-inline">
+                          <input
+                            className="form-check-input"
+                            type="radio"
+                            name="referral"
+                            id="facebook"
+                            value="Facebook"
+                            required
+                            onChange={handleRadioChange}
+                          />
+                          <label
+                            className="form-check-label"
+                            htmlFor="facebook"
+                          >
+                            Facebook
+                          </label>
+                        </div>
+                        <div className="form-check form-check-inline">
+                          <input
+                            className="form-check-input"
+                            type="radio"
+                            name="referral"
+                            id="instagram"
+                            value="Instagram"
+                            required
+                            onChange={handleRadioChange}
+                          />
+                          <label
+                            className="form-check-label"
+                            htmlFor="instagram"
+                          >
+                            Instagram
+                          </label>
+                        </div>
+                        <div className="form-check form-check-inline">
+                          <input
+                            className="form-check-input"
+                            type="radio"
+                            name="referral"
+                            id="collegeTPO"
+                            value="College TPO"
+                            required
+                            onChange={handleRadioChange}
+                          />
+                          <label
+                            className="form-check-label"
+                            htmlFor="collegeTPO"
+                          >
+                            College TPO
+                          </label>
+                        </div>
+                        <div className="form-check form-check-inline">
+                          <input
+                            className="form-check-input"
+                            type="radio"
+                            name="referral"
+                            id="friend"
+                            value="Friend"
+                            required
+                            onChange={handleRadioChange}
+                          />
+                          <label className="form-check-label" htmlFor="friend">
+                            Friend
+                          </label>
+                        </div>
 
-        {/* Agar 'Friend' selected hai toh yeh input field dikhegi */}
-        {isChecked && (
-          <div>
-            <label>
-              Friend's Name:
-              <input
-                type="text"
-                value={friendName}
-                onChange={handleInputChange}
-                placeholder="Enter friend's name"
-              />
-            </label>
-          </div>
-        )}
-      </div>
-    </div>
+                        {/* Agar 'Friend' selected hai toh yeh input field dikhegi */}
+                        {isChecked && (
+                          <div>
+                            <label>
+                              Friend's Name:
+                              <input
+                                type="text"
+                                value={friendName}
+                                onChange={handleInputChange}
+                                placeholder="Enter friend's name"
+                              />
+                            </label>
+                          </div>
+                        )}
+                      </div>
+                    </div>
 
                     <div className="col-sm-12">
                       <div className="form-check form-check-inline">
@@ -782,7 +773,7 @@ function UserForm() {
                         name="register"
                         className="btn btn-lg btn-primary btn-block"
                         value="Register"
-                        disabled={!termsAccepted} 
+                        disabled={!termsAccepted}
                         onClick={handleSubmit}
                       />
                     </div>
@@ -790,7 +781,13 @@ function UserForm() {
                 </div>
               </form>
 
-              {modalOpen && <Modal show={modalOpen} onClose={closeModal}  onAgree={handleAgree} />}
+              {modalOpen && (
+                <Modal
+                  show={modalOpen}
+                  onClose={closeModal}
+                  onAgree={handleAgree}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -800,4 +797,3 @@ function UserForm() {
 }
 
 export default UserForm;
-

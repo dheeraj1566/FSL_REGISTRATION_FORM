@@ -5,12 +5,18 @@ import Home from './Pages/Home';
 import UserForm from './registrationForm';
 import About from './Pages/About';
 import Navbar from './Navbar';
+import Header from './Pages/Header';
+import Courses from './Pages/Courses';
+import Blog from './Pages/Blog';
+
+
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
       <>
+        <Header/>
         <Navbar />
         <Home />
       </>
@@ -34,7 +40,26 @@ const router = createBrowserRouter([
       </>
     ),
   },
+  {
+    path: "/courses",
+    element: (
+      <>
+        <Navbar />
+        <Courses />
+      </>
+    ),
+  },
+  {
+    path: "/blog",
+    element: (
+      <>
+        <Navbar />
+        <Blog />
+      </>
+    ),
+  },
 ]);
+
 
 function App() {
   return (
