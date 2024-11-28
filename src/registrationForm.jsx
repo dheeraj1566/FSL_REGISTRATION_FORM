@@ -55,8 +55,11 @@ function UserForm() {
 
     try {
       const response = await axios.post(
-        "http://localhost:9090/createfsl",
-        formData
+        "https://fsl-backend-mmy2.onrender.com",
+        formData,
+        {
+          headers: {'Content-Type': 'application/json',}
+        }
       );
       alert("Form submitted successfully");
       console.log("Response:", response.data);
@@ -65,6 +68,33 @@ function UserForm() {
       alert("Failed to submit form");
     }
   };
+
+  // const handleSubmit = async (event) => {
+  //   event.preventDefault();
+  
+  //   const formData = new FormData(event.target); // Collect form data
+  //   const data = Object.fromEntries(formData.entries()); // Convert to an object
+    
+  //   try {
+  //     const response = await fetch('https://fsl-backend-mmy2.onrender.com', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify(data), // Stringify the data for sending
+  //     });
+  
+  //     if (response.ok) {
+  //       const result = await response.json();
+  //       console.log('Success:', result);
+  //     } else {
+  //       console.error('Error:', response.statusText);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error:', error);
+  //   }
+  // };
+  
 
   const handleRadioChange = (event) => {
     setIsChecked(event.target.value === "Friend");
